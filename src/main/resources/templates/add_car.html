@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #4a6741 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            background: var(--dark-gradient);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .portal-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 2rem 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .welcome-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-modern {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .btn-gradient-primary {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-outline-primary {
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control {
+            border-radius: 0.5rem;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .alert-modern {
+            border-radius: 0.75rem;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .vin-info {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .vin-info-title {
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 0.5rem;
+        }
+
+        .vin-info-text {
+            color: #424242;
+            font-size: 0.95rem;
+        }
+
+        .vin-example {
+            font-family: monospace;
+            background: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            color: #1565c0;
+        }
+    </style>
+    <title>Add New Car - Nowakowski Car Dealer</title>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="bi bi-car-front-fill me-2"></i>Nowakowski Car Dealer
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <a sec:authorize="hasAuthority('SALESMAN')" th:href="@{/salesman}" class="btn btn-light btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Salesman Portal
+                </a>
+                <form th:action="@{/logout}" method="POST" class="m-0">
+                    <button type="submit" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="portal-header">
+        <div class="container">
+            <h1 class="welcome-text">
+                <i class="bi bi-plus-circle me-3"></i>
+                Add New Car
+            </h1>
+            <p class="mb-0">Add a new car to the dealership inventory</p>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="alert alert-danger alert-modern alert-dismissible fade show mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Error:</strong> <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Success Message -->
+        <div th:if="${successMessage}" class="alert alert-success alert-modern alert-dismissible fade show mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Success:</strong> <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="card card-modern">
+            <div class="card-body p-4">
+                <h4 class="mb-4"><i class="bi bi-car-front text-primary me-2"></i>Car Details</h4>
+
+                <!-- VIN Information Box -->
+                <div class="vin-info">
+                    <div class="vin-info-title"><i class="bi bi-info-circle me-2"></i>VIN Format Requirements</div>
+                    <div class="vin-info-text">
+                        VIN (Vehicle Identification Number) must be exactly <strong>17 characters</strong> long and contain only:
+                        <ul class="mb-2 mt-2">
+                            <li>Capital letters <strong>A-H, J-N, P, R-Z</strong> (letters I, O, Q are NOT allowed)</li>
+                            <li>Digits <strong>0-9</strong></li>
+                        </ul>
+                        Example of valid VIN: <span class="vin-example">1FT7X2B60FEA74019</span>
+                    </div>
+                </div>
+
+                <form th:action="@{/salesman/car/add}" method="POST" th:object="${carToBuyDTO}">
+                    <div class="row">
+                        <!-- VIN -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-upc-scan me-2"></i>VIN <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" th:field="*{vin}" 
+                                   maxlength="17" minlength="17"
+                                   placeholder="Enter 17-character VIN" required
+                                   pattern="[A-HJ-NPR-Z0-9]{17}"
+                                   title="VIN must be exactly 17 characters containing only capital letters (excluding I, O, Q) and digits"
+                                   oninput="this.value = this.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, '').slice(0, 17)" />
+                            <div class="form-text text-muted">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Enter exactly 17 characters. Invalid characters will be automatically removed.
+                            </div>
+                            <div th:if="${#fields.hasErrors('vin')}" class="text-danger mt-1">
+                                <i class="bi bi-exclamation-circle me-1"></i>
+                                <span th:errors="*{vin}"></span>
+                            </div>
+                        </div>
+
+                        <!-- Brand -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-building me-2"></i>Brand <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" th:field="*{brand}" 
+                                   placeholder="e.g., Toyota, BMW, Ford" required />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Model -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-car-front me-2"></i>Model <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" th:field="*{model}" 
+                                   placeholder="e.g., Corolla, X5, Mustang" required />
+                        </div>
+
+                        <!-- Year -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-calendar me-2"></i>Year <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{year}" 
+                                   min="1900" max="2099" placeholder="e.g., 2023" required />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Color -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-palette me-2"></i>Color <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" th:field="*{color}" 
+                                   placeholder="e.g., Red, Black, Silver" required />
+                        </div>
+
+                        <!-- Price -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-currency-dollar me-2"></i>Price <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{price}" 
+                                   min="0" step="0.01" placeholder="e.g., 25000.00" required />
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-3 mt-4">
+                        <button type="submit" class="btn btn-gradient-primary">
+                            <i class="bi bi-check-lg me-2"></i>Add Car
+                        </button>
+                        <a th:href="@{/salesman}" class="btn btn-outline-primary">
+                            <i class="bi bi-x-lg me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>

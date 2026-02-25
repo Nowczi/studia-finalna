@@ -1,0 +1,454 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #4a6741 100%);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar-custom {
+            background: var(--dark-gradient);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .portal-header {
+            background: var(--success-gradient);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 2rem 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .welcome-text {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card-modern {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-icon-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        
+        .card-icon-success {
+            background: var(--success-gradient);
+            color: white;
+        }
+        
+        .card-icon-warning {
+            background: var(--warning-gradient);
+            color: white;
+        }
+        
+        .card-icon-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-gradient-primary {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-gradient-success {
+            background: var(--success-gradient);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            color: white;
+        }
+        
+        .btn-gradient-danger {
+            background: var(--warning-gradient);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+        
+        .btn-gradient-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(250, 112, 154, 0.4);
+            color: white;
+        }
+        
+        .btn-gradient-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+        
+        .btn-gradient-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.4);
+            color: white;
+        }
+        
+        .table-modern {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .table-modern thead {
+            background: var(--dark-gradient);
+            color: white;
+        }
+        
+        .table-modern th {
+            font-weight: 600;
+            padding: 1rem;
+            border: none;
+        }
+        
+        .table-modern td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        
+        .action-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+        
+        .action-card h4 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-card p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+    </style>
+    <title>Salesman Portal - Nowakowski Car Dealer</title>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="bi bi-car-front-fill me-2"></i>Nowakowski Car Dealer
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <a th:href="@{/cepik}" class="btn btn-light btn-sm">
+                    <i class="bi bi-search me-1"></i>CEPIK Lookup
+                </a>
+                <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/}" class="btn btn-light btn-sm">
+                    <i class="bi bi-house-door me-1"></i>Main Page
+                </a>
+                <form th:action="@{/logout}" method="POST" class="m-0">
+                    <button type="submit" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="portal-header">
+        <div class="container text-center">
+            <h1 class="welcome-text">Welcome to Salesman Portal</h1>
+            <p class="subtitle-text">The best place to sell cars at Nowakowski Car Dealer!</p>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <!-- Success/Error Messages -->
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="border-radius: 0.75rem; border: none;">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-4" role="alert" style="border-radius: 0.75rem; border: none;">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Available Cars Section -->
+        <div class="card card-modern mb-5">
+            <div class="card-body p-4">
+                <h3 class="mb-4">
+                    <i class="bi bi-car-front text-primary me-2"></i>
+                    Available Cars
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-modern table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="bi bi-upc-scan me-1"></i>VIN</th>
+                                <th><i class="bi bi-building me-1"></i>Brand</th>
+                                <th><i class="bi bi-car-front me-1"></i>Model</th>
+                                <th><i class="bi bi-calendar me-1"></i>Year</th>
+                                <th><i class="bi bi-palette me-1"></i>Color</th>
+                                <th><i class="bi bi-currency-dollar me-1"></i>Price</th>
+                                <th><i class="bi bi-gear me-1"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="car : ${availableCarDTOs}">
+                                <td><code th:text="${car.vin}" class="bg-light px-2 py-1 rounded"></code></td>
+                                <td th:text="${car.brand}" class="fw-semibold"></td>
+                                <td th:text="${car.model}"></td>
+                                <td><span class="badge bg-info text-dark" th:text="${car.year}"></span></td>
+                                <td th:text="${car.color}"></td>
+                                <td><span class="fw-bold text-success" th:text="${'$' + car.price}"></span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button type="button" class="btn btn-gradient-warning" 
+                                                data-bs-toggle="modal" 
+                                                th:data-bs-target="${'#editCarModal' + car.vin}">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </button>
+                                        <form th:action="@{/salesman/car/delete}" method="POST" style="display: inline;"
+                                              onsubmit="return confirm('Are you sure you want to delete this car? This action cannot be undone.');">
+                                            <input type="hidden" name="vin" th:value="${car.vin}" />
+                                            <button type="submit" class="btn btn-gradient-danger">
+                                                <i class="bi bi-trash me-1"></i>Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="d-flex justify-content-between align-items-center mt-4" th:if="${totalPages > 1}">
+                    <div class="text-muted">
+                        Showing <span th:text="${currentPage * carsPerPage + 1}"></span> - 
+                        <span th:text="${T(java.lang.Math).min((currentPage + 1) * carsPerPage, totalCars)}"></span> 
+                        of <span th:text="${totalCars}"></span> cars
+                    </div>
+                    <nav aria-label="Car pagination">
+                        <ul class="pagination mb-0">
+                            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{/salesman(page=${currentPage - 1})}" aria-label="Previous">
+                                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i> Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+                            </li>
+                            <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{/salesman(page=${currentPage + 1})}" aria-label="Next">
+                                    <span aria-hidden="true">Next <i class="bi bi-chevron-right"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="text-muted mt-3" th:if="${totalPages <= 1}">
+                    Showing <span th:text="${totalCars}"></span> car<span th:if="${totalCars != 1}">s</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Cards -->
+        <h3 class="mb-4">
+            <i class="bi bi-lightning-charge text-warning me-2"></i>
+            Quick Actions
+        </h3>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card card-modern action-card h-100">
+                    <div class="card-icon card-icon-info mx-auto">
+                        <i class="bi bi-plus-circle"></i>
+                    </div>
+                    <h4>Add New Car</h4>
+                    <p>Add a new car to the dealership inventory</p>
+                    <a th:href="@{/salesman/car/add}" class="btn btn-gradient-primary">
+                        <i class="bi bi-arrow-right me-2"></i>Add Car
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-modern action-card h-100">
+                    <div class="card-icon card-icon-primary mx-auto">
+                        <i class="bi bi-cart-plus"></i>
+                    </div>
+                    <h4>Buy a Car</h4>
+                    <p>Process a new car purchase for customers</p>
+                    <a th:href="@{/purchase}" class="btn btn-gradient-primary">
+                        <i class="bi bi-arrow-right me-2"></i>Start Purchase
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-modern action-card h-100">
+                    <div class="card-icon card-icon-success mx-auto">
+                        <i class="bi bi-tools"></i>
+                    </div>
+                    <h4>Service a Car</h4>
+                    <p>Create a new service request for customers</p>
+                    <a th:href="@{/service/new}" class="btn btn-gradient-success">
+                        <i class="bi bi-arrow-right me-2"></i>Request Service
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-modern action-card h-100">
+                    <div class="card-icon card-icon-warning mx-auto">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <h4>Car History</h4>
+                    <p>View complete service history for any car</p>
+                    <a th:href="@{/car/history}" class="btn btn-gradient-primary">
+                        <i class="bi bi-arrow-right me-2"></i>View History
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Car Modals -->
+    <div th:each="car : ${availableCarDTOs}" class="modal fade" th:id="${'editCarModal' + car.vin}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--primary-gradient); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-pencil-fill me-2"></i>Edit Car
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/salesman/car/edit}" method="POST">
+                    <div class="modal-body">
+                        <input type="hidden" name="vin" th:value="${car.vin}" />
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold"><i class="bi bi-upc-scan me-2"></i>VIN</label>
+                                <input type="text" class="form-control" th:value="${car.vin}" disabled />
+                                <div class="form-text text-muted">VIN cannot be changed</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold"><i class="bi bi-building me-2"></i>Brand <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="brand" th:value="${car.brand}" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold"><i class="bi bi-car-front me-2"></i>Model <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="model" th:value="${car.model}" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold"><i class="bi bi-calendar me-2"></i>Year <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="year" th:value="${car.year}" min="1900" max="2099" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold"><i class="bi bi-palette me-2"></i>Color <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="color" th:value="${car.color}" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold"><i class="bi bi-currency-dollar me-2"></i>Price <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="price" th:value="${car.price}" min="0" step="0.01" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-gradient-primary">
+                            <i class="bi bi-check-lg me-1"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>

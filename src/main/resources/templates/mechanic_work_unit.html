@@ -1,0 +1,523 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --mechanic-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #4a6741 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            background: var(--dark-gradient);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .portal-header {
+            background: var(--mechanic-gradient);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 2rem 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .welcome-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-modern {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .btn-gradient-mechanic {
+            background: var(--mechanic-gradient);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient-mechanic:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+            color: white;
+        }
+
+        .btn-outline-mechanic {
+            border: 2px solid #11998e;
+            color: #11998e;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        .btn-outline-mechanic:hover {
+            background: var(--mechanic-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .btn-add-part {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-part:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-remove-part {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border: none;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-remove-part:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(250, 112, 154, 0.4);
+            color: white;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control, .form-select {
+            border-radius: 0.5rem;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #11998e;
+            box-shadow: 0 0 0 0.2rem rgba(17, 153, 142, 0.25);
+        }
+
+        .input-group-text {
+            background: var(--mechanic-gradient);
+            color: white;
+            border: none;
+            border-radius: 0.5rem 0 0 0.5rem;
+        }
+
+        .request-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .request-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .request-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .request-info-label {
+            font-weight: 600;
+            color: #6c757d;
+            min-width: 120px;
+        }
+
+        .request-info-value {
+            color: #212529;
+            font-weight: 500;
+        }
+
+        .vin-code {
+            background: #11998e;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .part-item {
+            background: #f8f9fa;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e9ecef;
+        }
+
+        .part-legend {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .part-legend-title {
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-legend-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #90caf9;
+            font-size: 0.9rem;
+        }
+
+        .part-legend-item:last-child {
+            border-bottom: none;
+        }
+
+        .part-code {
+            font-family: monospace;
+            font-weight: 600;
+            color: #1565c0;
+        }
+    </style>
+    <title>Work on Service Request - Nowakowski Car Dealer</title>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <span class="navbar-brand">
+                <i class="bi bi-car-front-fill me-2"></i>Nowakowski Car Dealer
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <a th:href="@{/mechanic}" class="btn btn-light btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Mechanic Portal
+                </a>
+                <form th:action="@{/logout}" method="POST" class="m-0">
+                    <button type="submit" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-right me-1"></i>Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="portal-header">
+        <div class="container">
+            <h1 class="welcome-text">
+                <i class="bi bi-wrench-adjustable me-3"></i>
+                Work on Service Request
+            </h1>
+            <p class="mb-0">Process the service request and record your work</p>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <!-- Success Message -->
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-4" role="alert" style="border-radius: 0.75rem; border: none;">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Success:</strong> <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-4" role="alert" style="border-radius: 0.75rem; border: none;">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Error:</strong> <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Completed Work Section -->
+        <div class="card card-modern mb-4" th:if="${completedWork != null && !completedWork.isEmpty()}">
+            <div class="card-body">
+                <h4 class="mb-3"><i class="bi bi-clock-history text-info me-2"></i>Work Already Done</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mechanic</th>
+                                <th>Service/Part</th>
+                                <th>Hours/Qty</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="work : ${completedWork}">
+                                <td th:text="${work.mechanicName}"></td>
+                                <td>
+                                    <span th:if="${work.serviceName}" th:text="${work.serviceName}"></span>
+                                    <span th:if="${work.partName}" th:text="${work.partName}"></span>
+                                </td>
+                                <td>
+                                    <span th:if="${work.hours}" th:text="${work.hours} + ' hours'"></span>
+                                    <span th:if="${work.partQuantity}" th:text="${work.partQuantity} + ' pcs'"></span>
+                                </td>
+                                <td th:text="${work.comment}" class="text-muted"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Request Info -->
+        <div class="card card-modern mb-4" th:if="${serviceRequest != null}">
+            <div class="card-body">
+                <h4 class="mb-3"><i class="bi bi-info-circle text-success me-2"></i>Request Details</h4>
+                <div class="request-info">
+                    <div class="request-info-item">
+                        <span class="request-info-label"><i class="bi bi-hash me-2"></i>Request #:</span>
+                        <span class="request-info-value" th:text="${serviceRequest.carServiceRequestNumber}"></span>
+                    </div>
+                    <div class="request-info-item">
+                        <span class="request-info-label"><i class="bi bi-calendar me-2"></i>Received:</span>
+                        <span class="request-info-value" th:text="${serviceRequest.receivedDateTime}"></span>
+                    </div>
+                    <div class="request-info-item">
+                        <span class="request-info-label"><i class="bi bi-upc-scan me-2"></i>Car VIN:</span>
+                        <span class="request-info-value"><code class="vin-code" th:text="${serviceRequest.carVin}"></code></span>
+                    </div>
+                    <!-- Car Details -->
+                    <div class="request-info-item" th:if="${serviceRequest.carBrand != null}">
+                        <span class="request-info-label"><i class="bi bi-building me-2"></i>Brand:</span>
+                        <span class="request-info-value fw-semibold text-primary" th:text="${serviceRequest.carBrand}"></span>
+                    </div>
+                    <div class="request-info-item" th:if="${serviceRequest.carModel != null}">
+                        <span class="request-info-label"><i class="bi bi-car-front me-2"></i>Model:</span>
+                        <span class="request-info-value fw-semibold" th:text="${serviceRequest.carModel}"></span>
+                    </div>
+                    <div class="request-info-item" th:if="${serviceRequest.carYear != null}">
+                        <span class="request-info-label"><i class="bi bi-calendar-check me-2"></i>Year:</span>
+                        <span class="request-info-value"><span class="badge bg-info text-dark" th:text="${serviceRequest.carYear}"></span></span>
+                    </div>
+                    <div class="request-info-item">
+                        <span class="request-info-label"><i class="bi bi-chat-left-text me-2"></i>Customer Comment:</span>
+                        <span class="request-info-value" th:text="${serviceRequest.customerComment}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Work Form -->
+        <div class="card card-modern">
+            <div class="card-body p-4">
+                <h4 class="mb-4"><i class="bi bi-gear-wide-connected text-success me-2"></i>Record Work</h4>
+
+                <form th:action="@{/mechanic/workUnit}" method="POST" th:object="${carServiceProcessDTO}">
+                    <input type="hidden" th:field="*{carVin}" />
+
+                    <div class="row">
+                        <!-- Mechanic Selection -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-person-badge me-2"></i>Mechanic</label>
+                            <select class="form-select" th:field="*{mechanicPesel}" required>
+                                <option value="">-- Select Mechanic --</option>
+                                <option th:each="mechanic : ${availableMechanicDTOs}"
+                                        th:value="${mechanic.pesel}"
+                                        th:text="${mechanic.displayName}"></option>
+                            </select>
+                        </div>
+
+                        <!-- Service Code -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-tools me-2"></i>Service</label>
+                            <select class="form-select" th:field="*{serviceCode}" required>
+                                <option value="">-- Select Service --</option>
+                                <option th:each="service : ${serviceDTOs}"
+                                        th:value="${service.serviceCode}"
+                                        th:text="${service.serviceCode} + ' - ' + ${service.description}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Parts Legend -->
+                    <div class="part-legend" th:if="${partDTOs != null && !partDTOs.isEmpty()}">
+                        <div class="part-legend-title"><i class="bi bi-box-seam me-2"></i>Available Parts Reference</div>
+                        <div th:each="part : ${partDTOs}" class="part-legend-item">
+                            <span class="part-code" th:text="${part.serialNumber}"></span>
+                            <span th:text="${part.description} + ' ($' + ${part.price} + ')'"></span>
+                        </div>
+                    </div>
+
+                    <!-- Parts Section -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <label class="form-label mb-0"><i class="bi bi-box-seam me-2"></i>Parts Used</label>
+                            <button type="button" class="btn btn-add-part" onclick="addPartRow()">
+                                <i class="bi bi-plus-lg me-1"></i>Add Part
+                            </button>
+                        </div>
+
+                        <!-- Parts Container -->
+                        <div id="partsContainer">
+                            <!-- Part rows will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Hours -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-clock me-2"></i>Hours Worked</label>
+                            <input type="number" class="form-control" th:field="*{hours}" min="1" required placeholder="Enter hours worked" />
+                        </div>
+
+                        <!-- Done Checkbox -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="bi bi-check-circle me-2"></i>Status</label>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" th:field="*{done}" id="doneCheckbox" style="width: 1.5em; height: 1.5em;" />
+                                <label class="form-check-label ms-2" for="doneCheckbox" style="font-size: 1.1rem;">
+                                    Mark as Completed
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mechanic Comment -->
+                    <div class="mb-4">
+                        <label class="form-label"><i class="bi bi-chat-square-text me-2"></i>Mechanic Comment</label>
+                        <textarea class="form-control" th:field="*{mechanicComment}" rows="3" placeholder="Enter your comments about the work performed..."></textarea>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-gradient-mechanic">
+                            <i class="bi bi-check-lg me-2"></i>Save Work
+                        </button>
+                        <a th:href="@{/mechanic}" class="btn btn-outline-mechanic">
+                            <i class="bi bi-x-lg me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Part Row Template -->
+    <template id="partRowTemplate">
+        <div class="part-item" data-part-index="{index}">
+            <div class="row align-items-end">
+                <div class="col-md-6">
+                    <label class="form-label">Part</label>
+                    <select class="form-select part-select" name="parts[{index}].serialNumber" required>
+                        <option value="">-- Select Part --</option>
+                        <option th:each="part : ${partDTOs}" th:value="${part.serialNumber}" th:text="${part.serialNumber} + ' - ' + ${part.description}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" class="form-control part-quantity" name="parts[{index}].quantity" min="1" value="1" required />
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-remove-part w-100" onclick="removePartRow(this)">
+                        <i class="bi bi-trash me-1"></i>Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+
+    <script th:inline="javascript">
+        let partIndex = 0;
+
+        function addPartRow() {
+            const container = document.getElementById('partsContainer');
+            const template = document.getElementById('partRowTemplate');
+            const clone = template.content.cloneNode(true);
+
+            // Replace {index} placeholders with actual index
+            const html = clone.querySelector('.part-item').outerHTML.replace(/{index}/g, partIndex);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const newRow = tempDiv.firstElementChild;
+
+            container.appendChild(newRow);
+            partIndex++;
+        }
+
+        function removePartRow(button) {
+            const partItem = button.closest('.part-item');
+            partItem.remove();
+            reindexParts();
+        }
+
+        function reindexParts() {
+            const container = document.getElementById('partsContainer');
+            const partItems = container.querySelectorAll('.part-item');
+
+            partItems.forEach((item, index) => {
+                item.setAttribute('data-part-index', index);
+                const select = item.querySelector('.part-select');
+                const quantity = item.querySelector('.part-quantity');
+
+                if (select) select.name = `parts[${index}].serialNumber`;
+                if (quantity) quantity.name = `parts[${index}].quantity`;
+            });
+
+            partIndex = partItems.length;
+        }
+
+        // Add one empty part row by default
+        document.addEventListener('DOMContentLoaded', function() {
+            // No default part row - user can add if needed
+        });
+    </script>
+</body>
+
+</html>
