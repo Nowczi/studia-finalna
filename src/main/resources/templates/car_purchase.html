@@ -172,9 +172,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
-            <a class="navbar-brand" th:href="@{/}">
+            <span class="navbar-brand">
                 <i class="bi bi-car-front-fill me-2"></i>Nowakowski Car Dealer
-            </a>
+            </span>
             <div class="d-flex align-items-center gap-3">
                 <a sec:authorize="hasAuthority('SALESMAN')" th:href="@{/salesman}" class="btn btn-light btn-sm">
                     <i class="bi bi-arrow-left me-1"></i>Back to Salesman Portal

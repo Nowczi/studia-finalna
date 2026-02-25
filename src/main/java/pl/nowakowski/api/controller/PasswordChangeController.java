@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.nowakowski.business.UserManagementService;
 import pl.nowakowski.domain.User;
 
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 @Controller
@@ -72,8 +75,8 @@ public class PasswordChangeController {
             
             redirectAttributes.addFlashAttribute("successMessage", "Password changed successfully. Please log in with your new password.");
             
-            // Log the user out so they can log in with the new password
-            return "redirect:/car-dealership/logout";
+            // Redirect to logout first, then login will redirect to appropriate home page based on role
+            return "redirect:/logout";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error changing password: " + e.getMessage());
             return "change_password";

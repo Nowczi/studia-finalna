@@ -282,9 +282,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
-            <a class="navbar-brand" th:href="@{/}">
+            <span class="navbar-brand">
                 <i class="bi bi-car-front-fill me-2"></i>Nowakowski Car Dealer
-            </a>
+            </span>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item" sec:authorize="hasAnyAuthority('SALESMAN', 'ADMIN')">
@@ -332,23 +332,12 @@
             <div class="card-body p-4">
                 <div class="info-box">
                     <i class="bi bi-info-circle"></i>
-                    <strong>Tip:</strong> Search by VIN for specific vehicle details, or use date range to browse recently registered vehicles.
+                    <strong>Tip:</strong> Use date range to browse recently registered vehicles in CEPIK database.
                 </div>
                 
                 <form th:action="@{/cepik/search}" method="GET">
                     <div class="row g-3">
-                        <div class="col-md-4">
-                            <label for="vin" class="form-label">
-                                <i class="bi bi-upc-scan me-1"></i>VIN Number
-                            </label>
-                            <input type="text" class="form-control" id="vin" 
-                                   name="vin" 
-                                   th:value="${searchVin}"
-                                   placeholder="Enter VIN (e.g., WVWZZZ1JZ3W123456)"
-                                   maxlength="17">
-                            <div class="form-text text-muted">Enter VIN to search for a specific vehicle</div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <label for="firstRegistrationDateFrom" class="form-label">
                                 <i class="bi bi-calendar me-1"></i>Registration Date From
                             </label>
@@ -356,7 +345,7 @@
                                    name="firstRegistrationDateFrom" 
                                    th:value="${defaultDateFrom}" required>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <label for="firstRegistrationDateTo" class="form-label">
                                 <i class="bi bi-calendar me-1"></i>Registration Date To
                             </label>

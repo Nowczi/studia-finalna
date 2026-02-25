@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9dd44813-64ef-42c5-8052-beabd7bb0a16" name="Changes" comment="" />
+    <list default="true" id="9dd44813-64ef-42c5-8052-beabd7bb0a16" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/nowakowski/api/controller/PasswordChangeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/nowakowski/api/controller/PasswordChangeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/nowakowski/infrastructure/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/nowakowski/infrastructure/security/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/add_car.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/add_car.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin_portal.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin_portal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/car_history.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/car_history.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/car_purchase.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/car_purchase.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/car_service_request.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/car_service_request.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/cepik_lookup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/cepik_lookup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/mechanic_service.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/mechanic_service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/salesman_portal.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/salesman_portal.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +31,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Nowczi"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Nowczi/studia-finalna.git",
+    "accountId": "1e47f762-c06a-436e-94e2-d23b73f81a8a"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -32,11 +57,14 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.CarDealershipApplication.executor": "Run",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Downloads\idk oby finalna\nowakowski car\src\main\resources\templates" />
+      <recent name="C:\Users\User\Downloads\idk oby finalna\nowakowski car\src\main\java\pl\nowakowski\api\controller" />
       <recent name="C:\Users\User\Downloads\idk oby finalna\nowakowski car" />
     </key>
   </component>
