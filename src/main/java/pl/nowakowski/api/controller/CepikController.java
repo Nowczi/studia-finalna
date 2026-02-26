@@ -14,6 +14,7 @@ import pl.nowakowski.domain.CepikVehicle;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -65,12 +66,18 @@ public class CepikController {
         modelMap.put("defaultDateTo", firstRegistrationDateTo);
         
         try {
-            CepikVehicle vehicle = cepikService.findRandom(firstRegistrationDateFrom, firstRegistrationDateTo);
-            CepikVehicleDTO vehicleDTO = cepikVehicleMapper.map(vehicle);
-            modelMap.put("vehicle", vehicleDTO);
-            modelMap.put("successMessage", "Vehicle found in CEPIK database!");
+            // Fetch ALL vehicles from CEPIK
+            List<CepikVehicle> vehicles = cepikService.findAll(firstRegistrationDateFrom, firstRegistrationDateTo);
+            
+            // Map to DTOs
+            List<CepikVehicleDTO> vehicleDTOs = vehicles.stream()
+                    .map(cepikVehicleMapper::map)
+                    .toList();
+            
+            modelMap.put("vehicles", vehicleDTOs);
+            modelMap.put("successMessage", String.format("Found %d vehicle(s) in CEPIK database!", vehicleDTOs.size()));
         } catch (Exception e) {
-            modelMap.put("errorMessage", "Could not find vehicle: " + e.getMessage());
+            modelMap.put("errorMessage", "Could not find vehicles: " + e.getMessage());
         }
         
         return new ModelAndView("cepik_lookup", modelMap);

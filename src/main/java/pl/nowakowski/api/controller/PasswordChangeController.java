@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.nowakowski.business.UserManagementService;
 import pl.nowakowski.domain.User;
 
-import java.util.Collection;
 import java.util.regex.Pattern;
 
 @Controller
@@ -29,8 +26,8 @@ public class PasswordChangeController {
     public static final String CHANGE_PASSWORD = "/change-password";
     
     // Password pattern: at least 12 characters, 1 uppercase, 1 lowercase, 1 special character
-    private static final java.util.regex.Pattern PASSWORD_PATTERN = 
-            java.util.regex.Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).{12,}$");
+    private static final Pattern PASSWORD_PATTERN = 
+            Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).{12,}$");
 
     private final UserManagementService userManagementService;
 
@@ -73,9 +70,10 @@ public class PasswordChangeController {
             User user = userManagementService.findUser(userName);
             userManagementService.changeUserPassword(user.getId(), passwordChangeDTO.getNewPassword());
             
-            redirectAttributes.addFlashAttribute("successMessage", "Password changed successfully. Please log in with your new password.");
+            // Add success message that will be displayed on login page after logout
+            redirectAttributes.addFlashAttribute("passwordResetSuccess", "Password has been changed successfully! Please log in with your new password.");
             
-            // Redirect to logout first, then login will redirect to appropriate home page based on role
+            // Redirect to logout - user will be redirected to login page with success message
             return "redirect:/logout";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error changing password: " + e.getMessage());

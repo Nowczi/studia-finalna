@@ -35,4 +35,36 @@ public class CepikService {
                 .map(anyVehicle -> cepikVehicleDAO.getCepikVehicle(anyVehicle.getCepikId()))
                 .orElseThrow(() -> new NotFoundException("Could not find random CEPIK vehicle"));
     }
+    
+    /**
+     * Find all vehicles from CEPIK for the given date range.
+     * This method fetches detailed information for each vehicle.
+     * 
+     * @param dateFrom start date for first registration
+     * @param dateTo end date for first registration
+     * @return list of all vehicles found in CEPIK
+     */
+    public List<CepikVehicle> findAll(final LocalDate dateFrom, final LocalDate dateTo) {
+        log.debug("Looking for all CEPIK vehicles, first registration between: [{}] and: [{}]", dateFrom, dateTo);
+        List<CepikVehicle> cepikVehicles = cepikVehicleDAO.getCepikVehicles(dateFrom, dateTo);
+
+        if (cepikVehicles.isEmpty()) {
+            throw new ProcessingException(
+                    "CEPIK returned empty list for first registration between: [%s] and [%s]"
+                            .formatted(dateFrom, dateTo)
+            );
+        }
+
+        // Fetch detailed information for each vehicle
+        return cepikVehicles.stream()
+                .map(vehicle -> {
+                    try {
+                        return cepikVehicleDAO.getCepikVehicle(vehicle.getCepikId());
+                    } catch (Exception e) {
+                        log.warn("Could not fetch details for vehicle ID: {}", vehicle.getCepikId(), e);
+                        return vehicle; // Return basic info if detailed fetch fails
+                    }
+                })
+                .toList();
+    }
 }
